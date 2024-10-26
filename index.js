@@ -9,22 +9,24 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://grand-belekoy-289c4e.netlify.app" 
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-const authenticateToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
+// const authenticateToken = (req, res, next) => {
+//     const token = req.headers['authorization']?.split(' ')[1];
 
-    if (!token) return res.sendStatus(401); 
+//     if (!token) return res.sendStatus(401); 
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403); 
-        req.user = user; 
-        next(); 
-    });
-};
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//         if (err) return res.sendStatus(403); 
+//         req.user = user; 
+//         next(); 
+//     });
+// };
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ebsbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const client = new MongoClient(uri, {
@@ -50,7 +52,7 @@ async function run() {
       res.send({token});
     })
 
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     app.get("/", (req, res) => {
