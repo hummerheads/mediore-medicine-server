@@ -36,7 +36,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
     console.log("Connected to MongoDB!");
 
     const allMedsCollection = client.db("Mediore").collection("AllMeds");
@@ -204,10 +204,15 @@ async function run() {
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
+
 }
 
 run().catch(console.dir);
 
+app.get("/", (req, res) => {
+  res.send("Digital Insights Server is Running");
+});
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Digital Insights Server is listening on ${port}`);
 });
