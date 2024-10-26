@@ -4,14 +4,16 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
-
+const allowedOrigins = [
+  "https://grand-belekoy-289c4e.netlify.app",
+  "http://localhost:5173"
+];
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({
-  origin: "https://grand-belekoy-289c4e.netlify.app" 
-}));
+app.use(cors({ origin: '*' }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
